@@ -59,13 +59,26 @@ app.use(function(req,res,next){
     next();    
 })
 
-app.use(csrf());
+// app.use(csrf());
+const csurfInstance = csrf();  // creating a prox of the middleware
+app.use(function(req,res,next){
+    // if it is webhook url, then call next() immediately
+    if (req.url === '/checkout/process_payment') {
+        next();
+    } else {
+        csurfInstance(req,res,next);
+    }
+
+
+})
 
 // middleware to share the csrf token with all hbs files
 app.use(function(req,res,next){
     // the req.csrfToken() generates a new token
     // and save its to the current session
-    res.locals.csrfToken = req.csrfToken();
+    if (req.csrfToken) {
+        res.locals.csrfToken = req.csrfToken();
+    }
     next();
 })
 
