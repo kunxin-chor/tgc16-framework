@@ -5,6 +5,9 @@ const productDataLayer = require('../../dal/products');
 const {
     createProductForm
 } = require('../../forms');
+
+
+
 const {
     Product
 } = require('../../models')
@@ -56,5 +59,6 @@ router.post('/', async function (req, res) {
         });
     }
 })
+
 
 module.exports = router;

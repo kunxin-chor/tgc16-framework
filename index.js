@@ -1,7 +1,10 @@
 const express = require('express');
 const hbs = require('hbs')
 const wax = require('wax-on');
+const cors = require('cors');
 require('dotenv').config();
+
+
 
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -38,6 +41,7 @@ app.use(function(req,res,next){
             // or if there is no middleware,to the intended route function
 })
 
+app.use(cors()); // make sure to enable cors before sessions
 
 // setup sessions
 app.use(session({
@@ -113,7 +117,8 @@ const checkoutRoutes = require('./routes/checkout')
 
 // CREATE API ROUTES
 const api = {
-    products: require('./routes/api/products')
+    products: require('./routes/api/products'),
+    users: require('./routes/api/users')
 }
 
 const { checkIfAuthenticated } = require('./middlewares');
@@ -132,6 +137,7 @@ async function main(){
     app.use('/cart', checkIfAuthenticated ,  shoppingCartRoutes);
     app.use('/checkout', checkoutRoutes);
     app.use('/api/products', express.json(), api.products);
+    app.use('/api/users', express.json(), api.users);
 
 }
 main();
