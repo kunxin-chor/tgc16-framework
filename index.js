@@ -4,7 +4,12 @@ const wax = require('wax-on');
 const cors = require('cors');
 require('dotenv').config();
 
-
+// setInterval(function(){
+//     let d = new Date();
+//     if (d.getHours() == 12) {
+//         // check to delete expired tokens in blacklist
+//     }
+// },60*60*1000)
 
 const session = require('express-session');
 const flash = require('connect-flash');
