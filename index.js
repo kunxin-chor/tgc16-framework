@@ -63,7 +63,9 @@ app.use(function(req,res,next){
 const csurfInstance = csrf();  // creating a prox of the middleware
 app.use(function(req,res,next){
     // if it is webhook url, then call next() immediately
-    if (req.url === '/checkout/process_payment') {
+    // or if the url is for the api, then also exclude from csrf
+    if (req.url === '/checkout/process_payment' || 
+        req.url.slice(0,5)=='/api/') {
         next();
     } else {
         csurfInstance(req,res,next);
@@ -108,7 +110,15 @@ const userRoutes = require('./routes/users');
 const cloudinaryRoutes = require('./routes/cloudinary')
 const shoppingCartRoutes = require('./routes/shoppingCart');
 const checkoutRoutes = require('./routes/checkout')
+
+// CREATE API ROUTES
+const api = {
+    products: require('./routes/api/products')
+}
+
 const { checkIfAuthenticated } = require('./middlewares');
+
+
 
 async function main(){
     app.get('/', function(req,res){
@@ -121,6 +131,7 @@ async function main(){
     app.use('/cloudinary', cloudinaryRoutes);
     app.use('/cart', checkIfAuthenticated ,  shoppingCartRoutes);
     app.use('/checkout', checkoutRoutes);
+    app.use('/api/products', express.json(), api.products);
 
 }
 main();

@@ -14,6 +14,10 @@ async function getProductById(productId) {
 
 }
 
+async function getAllProducts() {
+    return await Product.fetchAll();
+}
+
 async function getAllCategories() {
     const allCategories = await Category.fetchAll().map(category => {
         return [category.get('id'), category.get('name')]
@@ -28,4 +32,4 @@ async function getAllTags() {
     return allTags;
 }
 
-module.exports = { getAllCategories, getAllTags, getProductById}
+module.exports = { getAllCategories, getAllTags, getProductById, getAllProducts}

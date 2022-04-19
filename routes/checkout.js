@@ -80,10 +80,7 @@ router.post('/process_payment', express.raw({
     }
 
     if (event.type === 'checkout.session.completed') {
-        console.log(event);
         let stripeSession = event.data.object;
-        console.log(stripeSession);
-        console.log(stripeSession.metadata);
     }
     res.send({
         'recieved': true
